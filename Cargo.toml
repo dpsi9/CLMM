@@ -1,0 +1,46 @@
+[package]
+name = "clmm-demo"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "A Concentrated Liquidity Market Maker (CLMM) implementation on Solana"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[features]
+default = []
+no-entrypoint = []
+test-sbf = []
+
+[dependencies]
+solana-pubkey = "3.0.0"
+solana-account-info = "3.0.0"
+solana-instruction = "3.0.0"
+solana-program-error = "3.0.0"
+solana-program-entrypoint = "3.0.0"
+solana-cpi = "3.0.0"
+solana-msg = "3.0.0"
+solana-rent = { version = "3.0.0", features = ["sysvar"] }
+solana-clock = { version = "3.0.0", features = ["sysvar"] }
+solana-program-pack = "3.0.0"
+solana-system-interface = "3.0.0"
+
+# Serialization
+borsh = "1.5"
+
+# Big number math (U256, U512)
+uint = "0.10"
+
+# SPL Token for token transfers
+spl-token-interface = "2"
+
+# Derive macros
+thiserror = "2.0"
+
+[dev-dependencies]
+solana-program-test = "3.0.0"
+solana-keypair = "3.0.0"
+solana-signature = "3.0.0"
+solana-signer = "3.0.0"
+tokio = { version = "1.0.0", features = ["full"] }
