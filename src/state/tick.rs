@@ -2,7 +2,7 @@ use borsh::{BorshDeserialize, BorshSerialize};
 
 pub const REWARD_NUM: usize = 3;
 
-#[derive(BorshDeserialize, BorshSerialize, Debug, Clone, Default)]
+#[derive(BorshDeserialize, BorshSerialize, Debug, Clone, Copy, Default)]
 #[repr(C)]
 pub struct TickState {
     pub tick: i32,
