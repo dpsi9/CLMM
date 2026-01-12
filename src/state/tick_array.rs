@@ -8,7 +8,7 @@ pub const TICK_ARRAY_SEED: &[u8] = b"tick_array";
 pub const TICK_ARRAY_SIZE: i32 = 60;
 pub const TICK_ARRAY_SIZE_USIZE: usize = 60;
 
-#[derive(Debug, Clone)]
+#[derive(BorshDeserialize, BorshSerialize, Debug, Clone)]
 #[repr(C)]
 pub struct TickArrayState {
     pub discriminator: [u8; 8],
