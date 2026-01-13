@@ -204,3 +204,62 @@ pub fn get_tick_at_sqrt_price(sqrt_price_x64: u128) -> Result<i32, ClmmError> {
         }
     }
 }
+
+pub fn check_tick_in_bounds(tick: i32) -> bool {
+    tick >= MIN_TICK && tick <= MAX_TICK
+}
+
+pub fn check_tick_aligned(tick: i32, tick_spacing: i32) -> bool {
+    tick % tick_spacing == 0
+}
+
+pub fn get_next_sqrt_price_from_input(
+    sqrt_price_x64: u128,
+    liquidity: u128,
+    amount: u64,
+    zero_for_one: bool,
+) -> Result<u128, ClmmError> {
+    //TODO
+    Ok(0)
+}
+
+pub fn get_next_sqrt_price_from_amount_0_rounding_up(
+    sqrt_price_x64: u128,
+    liquidity: u128,
+    amount: u64,
+) -> Result<u128, ClmmError> {
+    if amount == 0 {
+        return Ok(sqrt_price_x64);
+    }
+
+    let numerator = (liquidity as u128) << 64;
+    let product = (amount as u128)
+        .checked_mul(sqrt_price_x64)
+        .ok_or(ClmmError::MathOverflow)?;
+    let denominator = numerator
+        .checked_add(product)
+        .ok_or(ClmmError::MathOverflow)?;
+
+    let result =
+        crate::libraries::full_math::mul_div_round_up(numerator, sqrt_price_x64, denominator)?;
+
+    Ok(result)
+}
+
+pub fn get_next_sqrt_price_from_amount_1_rounding_down(
+    sqrt_price_x64: u128,
+    liquidity: u128,
+    amount: u64,
+) -> Result<u128, ClmmError> {
+    if amount == 0 {
+        return Ok(sqrt_price_x64);
+    }
+
+    let delta = ((amount as u128) << 64)
+        .checked_div(liquidity)
+        .ok_or(ClmmError::DivisionByZero)?;
+
+    sqrt_price_x64
+        .checked_add(delta)
+        .ok_or(ClmmError::MathOverflow)
+}
